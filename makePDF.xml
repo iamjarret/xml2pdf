@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<presentation>
+	<title name = "Update" date="January 21st, 2012"/>
+	<slide title= "Motivational quotes">
+		<p>“Abstraction: the process of determining the important characteristics and ignoring other details”</p>
+		<p>“Plan to throw away the first version”</p>
+		<p>“Failure is a prerequisite of learning”</p>
+		<p>“Startups don’t starve, they drown”</p>
+		<p>“There is surely nothing quite so useless as doing with great efficiency what should not be done at all”</p>
+	</slide>
+	<slide title="PPT sucks">
+		<p>(1) there's a lot of hands on editing that I hate when using powerpoit </p>
+		<p> DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!! DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!!
+		DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!! DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!!
+		DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!! DOESN"T IT SUCK WHEN THINGS DON"T LINE UP!! </p>
+	</slide>
+	<slide title= "Agenda thiS is a S A SUPER LONG sentence to test the wrap function to test the wrapwoo">
+		<p>How I made this pdf?</p>
+		<p tab="1">How does one make it? </p>
+		<p tab="2">Two tabs!??? WTF IS GOING ON!!</p>
+		<p>"Linux Essentials" highlights</p>
+	</slide>
+	<data type="line" title= "This is a data slide">
+		<p>Description of data Description of data Description of data Description of data Description of data
+		Description of data Description of data Description of data</p>
+		<p>How does one make it? </p>
+		<chart title="Revenue">1,3,4,7,8,11,8,4,3,5</chart>
+	</data>
+	<section name="SAY GOODBYE TO PPT"/>
+	<section name="One turn through the build/measure/learn another obnoxiously long section headin text wrap"/>
+	<slide title= "Agenda">
+		<p>How I made this pdf?</p>
+		<p>"Linux Essentials" highlights</p>
+		<p>THIS IS A SUPER LONG sentence to test the wrap function
+		THIS IS A SUPER LONG sentence to test the wrap function THIS IS A SUPER LONG sentence to test the wrap function
+		THIS IS A SUPER LONG sentence to test the wrap function THIS IS A SUPER LONG sentence to test the wrap function
+		THIS IS A SUPER LONG sentence to test the wrap function </p>
+	</slide>
+	
+</presentation>
