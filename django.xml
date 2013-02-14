@@ -112,7 +112,7 @@
 		<p tab="1">Anything that appears between block templates is added if the child doesn't define anything for that block</p>
 		<p>Typically sites are organized using three levels of organization: base.html, base_section.html, and individual pages</p>
 		<p>Children can inherit generic output using the {{ block.super }} tag which is useful to add to code</p>
-		<p>The string in {{ extends XXX }} can also be a variable, allowing for more dynamic development</p>
+		<p>The string in {% extends "XXX.html" %} can also be a variable, allowing for more dynamic development</p>
 	</slide>
 	<section name="Models"/>
 	<slide title="Configuring settings.py and testing">
