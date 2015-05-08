@@ -17,6 +17,7 @@ makePDF:
 
 ## Sample.xml
 
+'''html
 <?xml version="1.0"?>
 <presentation>
 	<info company="Company Title" logo="company_logo.png"/>
@@ -46,4 +47,5 @@ makePDF:
 		<p>bullet point 3</p>
 	</slide>
 
--</presentation>
+</presentation>
+'''
