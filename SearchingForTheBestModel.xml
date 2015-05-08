@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<presentation>
+	<info company="Data Science" logo="ga-logo.png"/>
+	
+	<title title= "Naive Search Methods and Less Naive Methods" date="October 21st, 2014" people="Jarret Petrillo, jarret.petrillo@gmail.com"/>
+
+	<section name="1,125,899,907,000,000"/>
+
+	<imageslide title="Compare CV across all subsets" image='allsubsets.png'/>
+
+	<imageslide title="Could we have found the best model quicker?" image='modelsubsets1.png' />
+
+	<imageslide title="Derivative models that start with good features do well" image='modelsubsets2.png'/>
+
+	<imagesslide title="Derivative models that start with good features do well" image='modelsubsets3.png'/>
+
+	<codeslide title="Pseudo Code: Naive Model Search Algorithm">
+		<codeblock>
+			<l focus="1">1. Start with a list of features</l>
+			<l focus="1">2. Use itertools to find all combinations (2^n!)</l>
+			<l focus="1">3. For each subset fit a linear regression model</l>
+			<l focus="1">4. Calculate cross-validated MSE with a test set</l>
+			<l focus="1">5. Choose the model with the lowest mean squared error</l>
+		</codeblock>
+	</codeslide>
+
+	<codeslide title="Pseudo Code: Iterative Search Algorithm">
+		<codeblock>
+			<l focus="1">1. Start with a list of features (n)</l>
+			<l focus="1">2. Run n simple linear regression models</l>
+			<l focus="1">3. Calculate cross-validated MSE for each model</l>
+			<l focus="1">4. Save the best feature</l>
+			<l indent="1">It will be in every subsequent model!</l>
+			<l focus="1">5. Consider only two feature models that contain the first (n-1)</l>
+			<l focus="1">6. For each new model fit a linear regression model</l>
+			<l focus="1">7. Calculate cross-validated MSE</l>
+			<l focus="1">8. Save the best features</l>
+			<l focus="1">9. Consider only three feature models that contain the best two!</l>
+			<l focus="1">Repeat!</l>
+			<l focus="1">Stop when the MSE gets worse with any added feature</l>
+		</codeblock>
+	</codeslide>
+
+	<imageslide title="Performs almost as well as naive method!" image='modelsearch.png'/>
+
+	<section name="Appendix"/>
+
+	<data type="line" title= "Example Data Slide">
+		<p>Description of data description of data description of data description of data description of data description of data description of data description of data</p>
+		<chart title="Revenue">1,3,4,7,8,11,8,4,3,5</chart>
+	</data>
+	
+	<slide title= "Example Standard Slide">
+		<p>“Abstraction: the process of determining the important characteristics and ignoring other details”</p>
+		<p>“Plan to throw away the first version”</p>
+		<p>“There is surely nothing quite so useless as doing with great efficiency what should not be done at all”</p>
+	</slide>
+
+</presentation>

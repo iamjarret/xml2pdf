@@ -1,7 +1,6 @@
-#takes an xml file of a certain form and creates a pdf file from it
+#! /usr/bin/env python
 
-#next steps - clean up the linesplit abstraction
-#also add image functionality
+#takes an xml file of a certain form and creates a pdf file from it
 
 from reportlab.pdfgen import canvas
 import sys
@@ -21,41 +20,39 @@ SECTION_SIZE = .5*inch
 TAB_SIZE = 0.5*inch
 IMAGEPATH = os.path.join(os.path.dirname(__file__),"images")
 
-
-def makeTitleSlide(c,title,date, slidenum):
-	addLogo(c, forTitle=True)
+def makeTitleSlide(c, company, logo, title, date, people, slidenum):
+	addLogo(c, logo, forTitle=True)
 	c.setFillGray(0.25)
 	c.rect(1*inch,9*inch,12*inch,.05*inch, fill=1)
 	c.rect(1*inch,1*inch,12*inch,.05*inch, fill=1)
 	c.setFillGray(0)
 	c.setFont(TITLE_FONT, TITLE_SIZE)
-	c.drawCentredString(7*inch, 5.5*inch, "Analytics Group")
+	c.drawCentredString(7*inch, 5.5*inch, company)
 	c.setFont(MAIN_FONT, MAIN_SIZE)
 	c.drawCentredString(7*inch, 4.5*inch, title)
 	c.drawCentredString(7*inch, 3.5*inch, date)
 	c.setFont(MAIN_FONT, MAIN_SIZE/1.2)
-	c.drawString(1*inch, 1.2*inch, "Jarret Petrillo, CEO, jarret.petrillo@gmail.com")
-	c.drawRightString(13*inch, 1.2*inch, "Matt Bogen, CEO, zebogen@gmail.com")
+	c.drawString(1*inch, 1.2*inch, people)
+	#c.drawRightString(13*inch, 1.2*inch, "Matt Bogen, CEO, zebogen@gmail.com")
 	c.showPage()
 
-def makeSlide(c, title, lines, slidenum):
-	addLogo(c)
+def makeSlide(c, logo, title, lines, slidenum):
+	addLogo(c, logo)
 	addDesign(c)
 	addTitle(c, title)
 	addText(c, lines, xstart=1.2, ystart=8.5, size = 10.8)
 	addPageNumber(c,slidenum)
 	c.showPage()
 		
-def makeSection(c, title, slidenum):
-	addLogo(c)
+def makeSection(c, logo, title, slidenum):
 	c.setFillGray(0.25)
 	c.rect(0.8*inch,5*inch,12.4*inch,2*inch, fill=1)
 	addTitle(c, title, forSection = True)
 	addPageNumber(c,slidenum)
 	c.showPage()
 	
-def makeData(c, title, lines, chartdata, slidenum):
-	addLogo(c)
+def makeData(c, logo, title, lines, chartdata, slidenum):
+	addLogo(c, logo)
 	addDesign(c)
 	addTitle(c, title)
 	addText(c, lines, xstart=1.2, ystart=3.5, size = 10.6)
@@ -63,11 +60,62 @@ def makeData(c, title, lines, chartdata, slidenum):
 	addPageNumber(c,slidenum)
 	c.showPage()
 
-def makeImage(c, title, imagename, slidenum):
-	addLogo(c)
+def makeImage(c, logo, title, imagename, slidenum):
+	addLogo(c, logo)
 	addDesign(c)
 	addTitle(c, title)
 	addImage(c, imagename, xstart=1, ystart=8.5, xsize = 12, ysize = 7.0)
+	addPageNumber(c,slidenum)
+	c.showPage()
+
+def makeCodeSlide(c, logo, title, codeblocks, slidenum):
+	c.saveState()
+	addLogo(c, logo)
+	addDesign(c)
+	addTitle(c, title)
+	
+	xstart = 1.2*inch
+	ystart = 8.5*inch
+	lineheight = 0.35*inch
+
+	last_boxheight = 0
+
+	for codeblock in codeblocks:
+		lines = codeblock.findall("l")
+		numlines = len(lines)
+
+		box_height = lineheight*(numlines+1)
+
+		c.setFont(SECTION_FONT, 18)
+
+		if last_boxheight: adjust = lineheight
+		else: adjust = 0
+
+		ypos = ystart - (last_boxheight + adjust)
+
+		c.setFillGray(0.95)
+		c.setStrokeGray(1)
+		c.rect(xstart,ypos,11.5*inch,-box_height, fill=1)
+
+		
+		last_boxheight = box_height
+	
+		for l in lines:
+			print l.attrib
+			indent = int(l.get('indent','0'))
+			focus = bool(int(l.get('focus','0')))
+			print l.text, focus
+			xpos = xstart + TAB_SIZE * (indent+1)
+			ypos = ypos - lineheight
+			if not focus:
+				c.setFillGray(0.4)
+				c.setStrokeGray(0.4)
+			else:
+				c.setFillGray(0)
+				c.setStrokeGray(0)
+			c.drawString(xpos, ypos, l.text)
+
+	c.restoreState()
 	addPageNumber(c,slidenum)
 	c.showPage()
 
@@ -76,16 +124,24 @@ def buildPresentation(root):
 	c = makeCanvas(filename)
 	count = 0
 	for slide in root:
-		if slide.tag =="title":
-			makeTitleSlide(c, slide.attrib['name'], slide.attrib['date'], count)
+		if slide.tag =="info":
+			company = slide.attrib['company']
+			logo = slide.attrib['logo']
+
+			count-=1
+		elif slide.tag =="title":
+			makeTitleSlide(c, company=company, logo=logo, title=slide.attrib['title'],
+				date=slide.attrib['date'], people = slide.attrib['people'], slidenum=count)
 		elif slide.tag=="slide":
-			makeSlide(c, slide.attrib['title'],slide.findall("p"), count)
+			makeSlide(c, logo=logo, title=slide.attrib['title'], lines=slide.findall("p"), slidenum=count)
 		elif slide.tag=="section":
-			makeSection(c, slide.attrib['name'], count)	
+			makeSection(c, logo=logo, title=slide.attrib['name'], slidenum=count)	
 		elif slide.tag=="data":
-			makeData(c, slide.attrib['title'],slide.findall("p"),slide.findall("chart"), count)
+			makeData(c, logo=logo, title=slide.attrib['title'], lines=slide.findall("p"), chartdata=slide.findall("chart"), slidenum=count)
 		elif slide.tag=="imageslide":
-			makeImage(c, slide.attrib['title'],slide.attrib['image'], count)
+			makeImage(c, logo=logo, title=slide.attrib['title'], imagename=slide.attrib['image'], slidenum=count)
+		elif slide.tag=="codeslide":
+			makeCodeSlide(c, logo=logo, title=slide.attrib['title'], codeblocks=slide.findall("codeblock"), slidenum=count)
 		count+=1
 	c.save()
 
@@ -212,13 +268,15 @@ def addDesign(c):
 	c.rect(1*inch,1*inch,12*inch,.05*inch, fill=1)
 	c.restoreState()
 	
-def addLogo(slide, forTitle=False):
+def addLogo(slide, logo=False, forTitle=False):
 	slide.saveState()
 	slide.setFillGray(0.80)
 	if forTitle:
-		slide.rect(6*inch,6*inch,2*inch,1*inch, fill=1)
+		if logo: addImage(slide,logo, xstart=6, ystart=7, xsize=2, ysize=1)
+		else: slide.rect(6*inch,6*inch,2*inch,1*inch, fill=1)
 	else:
-		slide.rect(11*inch,0,2*inch,1*inch, fill=1)
+		if logo: addImage(slide,logo,xstart=11, ystart=1, xsize=2, ysize=1)
+		else: slide.rect(11*inch,0,2*inch,1*inch, fill=1)
 	slide.restoreState()
 
 def addTitle(c,title, forSection = False):
