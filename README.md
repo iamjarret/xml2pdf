@@ -49,3 +49,7 @@ makePDF:
 
 </presentation>
 ```
+
+## Notes:
+- images referenced need to be saved in ./images directory
+
