@@ -17,7 +17,7 @@ makePDF:
 
 ## Sample.xml
 
-'''html
+```html
 <?xml version="1.0"?>
 <presentation>
 	<info company="Company Title" logo="company_logo.png"/>
@@ -48,4 +48,4 @@ makePDF:
 	</slide>
 
 </presentation>
-'''
+```
